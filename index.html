@@ -16,14 +16,15 @@
 
   <link href="style.css" rel="stylesheet">
 
-  <title>🏎 Speed Test</title>
+  <title>Speed Test</title>
 </head>
 
 <body>
   <div class="container">
     <div class="row my-5 justify-content-md-center">
       <div class="col-lg-8">
-        <h1 class="font-weight-normal text-center">🏎 Speed Test</h1>
+        <h1 class="display-3 font-weight-normal text-center">Speed Test</h1>
+        <p class="text-center">See also these tests from <a href="https://fast.com/">Netfix</a> and <a href="https://www.linode.com/speed-test/">linode</a>, as well as <a href="https://www.whatsmybrowser.org/">browser/OS</a> details. </p>
       </div>
     </div>
     <div class="row justify-content-md-center">
@@ -124,19 +125,12 @@
 <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
   <script type="text/javascript" src="speedtest.js"></script>
   <script type="text/javascript">
-    function get_ua(){
-      var parser = new UAParser();
-      const result = parser.getResult();
-      var pasteBox = document.getElementById('pasteBox');
-      pasteBox.innerHTML += '\n\n'
-      pasteBox.innerHTML += JSON.stringify(result, null, ' ')
-    }
     var s=new Speedtest();
     s.onupdate = function (data) { // when status is received, put the values in the appropriate fields
-        document.getElementById('download').textContent = data.dlStatus 
-        document.getElementById('upload').textContent = data.ulStatus
-        document.getElementById('ping').textContent = data.pingStatus 
-        document.getElementById('jitter').textContent = data.jitterStatus
+        document.getElementById('download').textContent = Math.trunc(data.dlStatus)
+        document.getElementById('upload').textContent = Math.trunc(data.ulStatus)
+        document.getElementById('ping').textContent = Math.trunc(data.pingStatus) 
+        document.getElementById('jitter').textContent = Math.trunc(data.jitterStatus)
         document.getElementById('ip').textContent = data.clientIp
     }
     s.start(); // start the speedtest with default settings
@@ -149,8 +143,6 @@
       pasteBox.innerHTML += 'Jitter: ' + document.getElementById('jitter').textContent + 'ms\n'
       pasteBox.innerHTML += 'Ip: ' + document.getElementById('ip').textContent + '\n'
       pasteBox.innerHTML += 'UA: ' + navigator.userAgent + '\n'
-
-      get_ua()
     }
 
 </script>
