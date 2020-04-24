@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Font Awesome CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+  <link href="style.css" rel="stylesheet">
+
+  <title>🏎 Speed Test</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row my-5 justify-content-md-center">
+      <div class="col-lg-8">
+        <h1 class="font-weight-normal text-center">🏎 Speed Test</h1>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Download Speed</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text text-center">
+            <span class="download-result display-1" id="download">0</span> 
+            <span class="text-muted">Mbps</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Upload Speed</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text text-center">
+            <span class="upload-result display-1" id="upload">0</span> 
+            <span class="text-muted">Mbps</span>
+</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row my-3 justify-content-md-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h5 card-title">Latency</h2>
+          </div>
+          <div class="card-body">
+            
+            <p class="card-text text-center" >
+          <span class="ping-result font-weight-bold" id="ping">0.0</span> 
+          <span class="text-muted">ms (ping)</span>
+/
+          <span class="ping-result font-weight-bold" id="jitter">0.0</span> 
+          <span class="text-muted">ms (jitter)</span>
+</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h5 card-title">IP Address</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text text-center" id="ip">--</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row my-5 justify-content-md-center">
+      <div class="col-lg-8">
+
+        <form>
+          <h2 class="h3 mb-3 font-weight-normal text-center">Share This</h2>
+          <label class="" for="pasteBox">Copy the results below to send to support.</label>
+          <textarea class="form-control" id="pasteBox" placeholder="Running test...." rows="8"></textarea>
+          <button class="btn btn-lg btn-primary btn-block mt-2" data-clipboard-target="#pasteBox"
+            type="button">Copy</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mt-5 justify-content-md-center">
+      <div class="col-lg-4">
+        <p class="mt-5 mb-3 text-muted text-center">:-)</p>
+      </div>
+    </div>
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <!-- Clipboardjs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+
+  <!-- Handle Clipboardjs and tooltips -->
+  <script src="copy.js"></script>
+<!-- UA Parsing for including env info in copy box -->
+<script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+  <script type="text/javascript" src="speedtest.js"></script>
+  <script type="text/javascript">
+    function get_ua(){
+      var parser = new UAParser();
+      const result = parser.getResult();
+      var pasteBox = document.getElementById('pasteBox');
+      pasteBox.innerHTML += '\n\n'
+      pasteBox.innerHTML += JSON.stringify(result, null, ' ')
+    }
+    var s=new Speedtest();
+    s.onupdate = function (data) { // when status is received, put the values in the appropriate fields
+        document.getElementById('download').textContent = data.dlStatus 
+        document.getElementById('upload').textContent = data.ulStatus
+        document.getElementById('ping').textContent = data.pingStatus 
+        document.getElementById('jitter').textContent = data.jitterStatus
+        document.getElementById('ip').textContent = data.clientIp
+    }
+    s.start(); // start the speedtest with default settings
+    s.onend=function(aborted){ //callback for test ended/aborted
+      var pasteBox = document.getElementById('pasteBox');
+
+      pasteBox.innerHTML += 'Down: ' + document.getElementById('download').textContent + 'Mbps\n'
+      pasteBox.innerHTML += 'Up: ' + document.getElementById('upload').textContent + 'Mbps\n'
+      pasteBox.innerHTML += 'Ping: ' + document.getElementById('ping').textContent + 'ms\n'
+      pasteBox.innerHTML += 'Jitter: ' + document.getElementById('jitter').textContent + 'ms\n'
+      pasteBox.innerHTML += 'Ip: ' + document.getElementById('ip').textContent + '\n'
+      pasteBox.innerHTML += 'UA: ' + navigator.userAgent + '\n'
+
+      get_ua()
+    }
+
+</script>
+</body>
+
+</html>
