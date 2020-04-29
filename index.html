@@ -20,7 +20,9 @@
     <div class="row my-5 justify-content-md-center">
       <div class="col-lg-8">
         <h1 class="display-3 font-weight-normal text-center">Speed Test</h1>
-        <p class="text-center">See also these tests from <a href="https://fast.com/">Netfix</a> and <a href="https://www.linode.com/speed-test/">linode</a>, as well as <a href="https://www.whatsmybrowser.org/">browser/OS</a> details. </p>
+        <p class="text-center">See also these tests from <a href="https://fast.com/">Netfix</a> and <a
+            href="https://www.linode.com/speed-test/">linode</a>, as well as <a
+            href="https://www.whatsmybrowser.org/">browser/OS</a> details. </p>
       </div>
     </div>
     <div class="row justify-content-md-center">
@@ -31,8 +33,8 @@
           </div>
           <div class="card-body">
             <p class="card-text text-center">
-            <span class="download-result display-1" id="download">0</span> 
-            <span class="text-muted">Mbps</span>
+              <span class="download-result display-1 text-muted" id="download">0</span>
+              <span class="text-muted">Mbps</span>
             </p>
           </div>
         </div>
@@ -44,25 +46,61 @@
           </div>
           <div class="card-body">
             <p class="card-text text-center">
-            <span class="upload-result display-1" id="upload">0</span> 
-            <span class="text-muted">Mbps</span>
-</p>
+              <span class="upload-result display-1 text-muted" id="upload">0</span>
+              <span class="text-muted">Mbps</span>
+            </p>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="d-none row my-3 justify-content-md-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h5 card-title">Latency</h2>
+          </div>
+          <div class="card-body">
+
+            <p class="card-text text-center">
+              <span class="ping-result font-weight-bold" id="ping">0</span>
+              <span class="text-muted">ms (ping)</span>
+              /
+              <span class="ping-result font-weight-bold" id="jitter">0</span>
+              <span class="text-muted">ms (jitter)</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h5 card-title">IP Address</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text text-center" id="ip">--</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row my-5 justify-content-md-center">
       <div class="col-lg-8">
 
-        <form>
-          <h2 class="h3 mb-2 font-weight-normal text-center">Share It</h2>
-          <p class="text-center">Copy the text below to send your results to support.</p>
-          <textarea class="form-control" id="pasteBox" placeholder="Running test...." rows="8"></textarea>
-          <button class="btn btn-lg btn-primary btn-block mt-2" data-clipboard-target="#pasteBox"
-            type="button">Copy</button>
-        </form>
+        <div class="card text-left">
+          <div class="card-header">
+            <h3 class="h4 card-title">Share It</h3>
+          </div>
+          <div class="card-body">
+
+            <p class="card-text">Copy the text below and send these results to support.</p>
+            <form>
+              <textarea class="form-control" id="pasteBox" placeholder="Running test...." rows="8"></textarea>
+              <button class="btn btn-lg btn-primary btn-block mt-2" data-clipboard-target="#pasteBox"
+                type="button">Copy</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -88,31 +126,15 @@
 
   <!-- Handle Clipboardjs and tooltips -->
   <script src="copy.js"></script>
-<!-- UA Parsing for including env info in copy box -->
-<script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+
+  <!-- UA Parsing for including env info in copy box -->
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+
+  <!-- librespeed/speedtest -->
   <script type="text/javascript" src="speedtest.js"></script>
-  <script type="text/javascript">
-    var s=new Speedtest();
-    s.onupdate = function (data) { // when status is received, put the values in the appropriate fields
-        document.getElementById('download').textContent = Math.trunc(data.dlStatus)
-        document.getElementById('upload').textContent = Math.trunc(data.ulStatus)
-        document.getElementById('ping').textContent = Math.trunc(data.pingStatus) 
-        document.getElementById('jitter').textContent = Math.trunc(data.jitterStatus)
-        document.getElementById('ip').textContent = data.clientIp
-    }
-    s.start(); // start the speedtest with default settings
-    s.onend=function(aborted){ //callback for test ended/aborted
-      var pasteBox = document.getElementById('pasteBox');
 
-      pasteBox.innerHTML += 'Down: ' + document.getElementById('download').textContent + 'Mbps\n'
-      pasteBox.innerHTML += 'Up: ' + document.getElementById('upload').textContent + 'Mbps\n'
-      pasteBox.innerHTML += 'Ping: ' + document.getElementById('ping').textContent + 'ms\n'
-      pasteBox.innerHTML += 'Jitter: ' + document.getElementById('jitter').textContent + 'ms\n'
-      pasteBox.innerHTML += 'Ip: ' + document.getElementById('ip').textContent + '\n'
-      pasteBox.innerHTML += 'UA: ' + navigator.userAgent + '\n'
-    }
-
-</script>
+  <!-- Run/display results -->
+  <script type="text/javascript" src="main.js"></script>
 </body>
 
 </html>
